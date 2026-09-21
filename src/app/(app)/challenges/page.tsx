@@ -34,7 +34,6 @@ export default async function ChallengesPage() {
         </div>
       ) : (
         <div className="mt-5">
-          {/* eslint-disable-next-line @typescript-eslint/no-use-before-define */}
           <ChallengeLoader challengeId={challenge.id} userId={profile.id} />
         </div>
       )}
