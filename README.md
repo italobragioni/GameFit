@@ -83,8 +83,11 @@ update public.profiles set is_admin = true where id = (
 ```
 Acesse `/admin`.
 
-## Deploy na Vercel
+## Deploy na Vercel (plano grátis)
 
+👉 **Guia completo passo a passo:** veja [`DEPLOY.md`](./DEPLOY.md) — como publicar 100% nos planos gratuitos (Vercel Hobby + Supabase Free + Stripe), do zero até receber o primeiro cadastro.
+
+Resumo:
 1. Importe o repositório na Vercel.
 2. Configure as mesmas variáveis de ambiente (`.env.example`).
 3. Ajuste `NEXT_PUBLIC_SITE_URL` para a URL de produção.
