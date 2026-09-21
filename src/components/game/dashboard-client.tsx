@@ -8,6 +8,8 @@ import { createClient } from "@/lib/supabase/client";
 import { useFeedback } from "@/components/game/feedback-provider";
 import { StatRow } from "@/components/game/stat-row";
 import { LevelProgress } from "@/components/game/level-progress";
+import { WeightChart, type WeightPoint } from "@/components/game/weight-chart";
+import { Scale, TrendingDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -18,6 +20,13 @@ import { track } from "@/lib/analytics";
 import type { DailyMission } from "@/lib/data";
 import type { LevelThreshold, Achievement, CompleteMissionResult } from "@/lib/types/database";
 
+interface WeightSummary {
+  current: number | null;
+  start: number | null;
+  goal: number | null;
+  points: WeightPoint[];
+}
+
 interface Props {
   name: string;
   initialXp: number;
@@ -27,6 +36,7 @@ interface Props {
   missions: DailyMission[];
   achievements: Achievement[];
   hasCheckinToday: boolean;
+  weight: WeightSummary;
 }
 
 export function DashboardClient({
@@ -37,6 +47,7 @@ export function DashboardClient({
   missions: initialMissions,
   achievements,
   hasCheckinToday,
+  weight,
 }: Props) {
   const router = useRouter();
   const { celebrate } = useFeedback();
@@ -91,6 +102,9 @@ export function DashboardClient({
 
       <StatRow streak={streak} xp={xp} level={levelInfo.level} />
       <LevelProgress info={levelInfo} totalXp={xp} />
+
+      {/* Acompanhamento de peso */}
+      <WeightCard weight={weight} />
 
       {/* Check-in do dia */}
       {!hasCheckinToday && (
@@ -170,5 +184,67 @@ export function DashboardClient({
         </Link>
       )}
     </div>
+  );
+}
+
+function WeightCard({ weight }: { weight: WeightSummary }) {
+  if (weight.current == null) {
+    return (
+      <Link href="/weight" className="block">
+        <div className="flex items-center gap-3 rounded-2xl border border-primary/30 bg-primary/5 p-4">
+          <Scale className="h-6 w-6 text-primary" />
+          <div className="flex-1">
+            <p className="text-sm font-bold">Acompanhe seu peso</p>
+            <p className="text-xs text-muted-foreground">Registre seu peso e veja sua evolução.</p>
+          </div>
+          <ArrowRight className="h-5 w-5 text-muted-foreground" />
+        </div>
+      </Link>
+    );
+  }
+
+  const delta = weight.start != null ? +(weight.current - weight.start).toFixed(1) : null;
+  const towardGoal = delta != null && delta < 0;
+
+  return (
+    <Link href="/weight" className="block">
+      <div className="rounded-2xl border bg-card p-4 shadow-sm">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Scale className="h-5 w-5 text-primary" />
+            <p className="text-sm font-bold">Seu peso</p>
+          </div>
+          <div className="text-right">
+            <span className="text-lg font-extrabold">{weight.current.toFixed(1)} kg</span>
+            {delta != null && delta !== 0 && (
+              <span
+                className={cn(
+                  "ml-2 inline-flex items-center gap-0.5 text-xs font-semibold",
+                  towardGoal ? "text-success" : "text-muted-foreground"
+                )}
+              >
+                {towardGoal && <TrendingDown className="h-3 w-3" />}
+                {delta > 0 ? "+" : ""}
+                {delta} kg
+              </span>
+            )}
+          </div>
+        </div>
+        {weight.points.length >= 2 ? (
+          <div className="mt-2">
+            <WeightChart data={weight.points} goal={weight.goal} height={140} />
+          </div>
+        ) : (
+          <p className="mt-2 text-xs text-muted-foreground">
+            Registre mais alguns dias para ver seu gráfico de evolução.
+          </p>
+        )}
+        {weight.goal != null && (
+          <p className="mt-1 text-xs text-muted-foreground">
+            Meta: {weight.goal.toFixed(1)} kg · continue com seus hábitos 💪
+          </p>
+        )}
+      </div>
+    </Link>
   );
 }

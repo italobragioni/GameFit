@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
 import { FOCUS_OPTIONS, INTENSITY_OPTIONS } from "@/lib/game/config";
-import { completeOnboarding } from "@/lib/actions";
+import { completeOnboarding, addWeightEntry } from "@/lib/actions";
 import { track } from "@/lib/analytics";
 import type { MissionCategory } from "@/lib/types/database";
 
@@ -16,11 +17,13 @@ export default function OnboardingPage() {
   const router = useRouter();
   const [step, setStep] = React.useState(0);
   const [focus, setFocus] = React.useState<MissionCategory[]>([]);
+  const [weight, setWeight] = React.useState("");
+  const [goal, setGoal] = React.useState("");
   const [weekly, setWeekly] = React.useState(5);
   const [intensity, setIntensity] = React.useState<"leve" | "moderada" | "desafiadora">("moderada");
   const [saving, setSaving] = React.useState(false);
 
-  const totalSteps = 5;
+  const totalSteps = 6;
 
   function toggleFocus(v: MissionCategory) {
     setFocus((prev) => {
@@ -34,7 +37,15 @@ export default function OnboardingPage() {
     setSaving(true);
     const res = await completeOnboarding({ focusAreas: focus, weeklyGoal: weekly, intensity });
     if (res.success) {
-      await track("onboarding_completed", { focus, weekly, intensity });
+      // Registro de peso inicial é opcional
+      const w = parseFloat(weight.replace(",", "."));
+      if (w > 0) {
+        await addWeightEntry({
+          weightKg: w,
+          goalKg: goal ? parseFloat(goal.replace(",", ".")) : null,
+        });
+      }
+      await track("onboarding_completed", { focus, weekly, intensity, has_weight: w > 0 });
       router.push("/dashboard");
       router.refresh();
     } else {
@@ -52,16 +63,16 @@ export default function OnboardingPage() {
 
         <div className="flex flex-1 flex-col">
           {step === 0 && (
-            <Step title="Vamos transformar seus hábitos em um jogo." emoji="🎮">
+            <Step title="Vamos transformar seu emagrecimento em um jogo." emoji="🎯">
               <p className="text-muted-foreground">
-                Pequenas missões diárias, XP, níveis e sequências para te ajudar a construir uma
-                rotina mais leve e consistente.
+                Missões diárias, XP, sequências e acompanhamento do seu peso para te ajudar a
+                emagrecer com hábitos saudáveis — no seu ritmo, sem dietas malucas.
               </p>
             </Step>
           )}
 
           {step === 1 && (
-            <Step title="O que você gostaria de melhorar?" subtitle="Selecione até 3">
+            <Step title="Onde você quer focar para emagrecer?" subtitle="Selecione até 3">
               <div className="grid grid-cols-2 gap-3">
                 {FOCUS_OPTIONS.map((o) => {
                   const selected = focus.includes(o.value);
@@ -85,6 +96,34 @@ export default function OnboardingPage() {
           )}
 
           {step === 2 && (
+            <Step title="Qual seu ponto de partida?" subtitle="Opcional — fica só pra você, sem comparações">
+              <div className="space-y-4">
+                <div className="space-y-1.5">
+                  <label className="text-sm font-medium">Peso atual (kg)</label>
+                  <Input
+                    inputMode="decimal"
+                    value={weight}
+                    onChange={(e) => setWeight(e.target.value)}
+                    placeholder="Ex: 78,0"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-sm font-medium">Meta de peso (opcional)</label>
+                  <Input
+                    inputMode="decimal"
+                    value={goal}
+                    onChange={(e) => setGoal(e.target.value)}
+                    placeholder="Ex: 70,0"
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Você pode pular e registrar depois. Sem metas extremas — o foco é evoluir com saúde.
+                </p>
+              </div>
+            </Step>
+          )}
+
+          {step === 3 && (
             <Step title="Quantos dias por semana você quer focar?">
               <div className="flex flex-wrap justify-center gap-3">
                 {WEEK_OPTIONS.map((n) => (
@@ -104,8 +143,8 @@ export default function OnboardingPage() {
             </Step>
           )}
 
-          {step === 3 && (
-            <Step title="Escolha sua meta inicial.">
+          {step === 4 && (
+            <Step title="Escolha seu ritmo.">
               <div className="space-y-3">
                 {INTENSITY_OPTIONS.map((o) => (
                   <button
@@ -125,11 +164,11 @@ export default function OnboardingPage() {
             </Step>
           )}
 
-          {step === 4 && (
+          {step === 5 && (
             <Step title="Tudo pronto." emoji="✨">
               <p className="text-muted-foreground">
-                Seu primeiro desafio começa hoje. Complete suas missões, ganhe XP e comece a
-                construir sua sequência.
+                Sua jornada começa hoje. Complete suas missões, acompanhe seu peso e construa a
+                consistência que traz resultado.
               </p>
             </Step>
           )}

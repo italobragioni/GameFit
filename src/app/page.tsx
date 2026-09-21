@@ -6,18 +6,18 @@ import { PREMIUM_PRICE_LABEL } from "@/lib/game/config";
 import { Check, Flame, Star, Trophy, ArrowRight } from "lucide-react";
 
 const STEPS = [
-  { n: 1, title: "Complete suas missões", desc: "Pequenas ações diárias de hidratação, alimentação, movimento e sono." },
-  { n: 2, title: "Ganhe XP", desc: "Cada missão concluída te dá pontos de experiência." },
-  { n: 3, title: "Suba de nível", desc: "Acumule XP e evolua de nível com o tempo." },
-  { n: 4, title: "Mantenha sua sequência", desc: "Volte todos os dias e veja seu 🔥 crescer." },
+  { n: 1, title: "Complete suas missões", desc: "Pequenas ações diárias de alimentação, movimento, hidratação e sono." },
+  { n: 2, title: "Ganhe XP", desc: "Cada hábito concluído te dá pontos e mantém você no ritmo." },
+  { n: 3, title: "Acompanhe seu peso", desc: "Registre seu peso e veja sua evolução — só sua, sem comparações." },
+  { n: 4, title: "Mantenha sua sequência", desc: "Volte todos os dias e veja seu 🔥 crescer junto com os resultados." },
 ];
 
 const BENEFITS = [
   "Missões diárias ilimitadas",
+  "Acompanhamento de peso com gráfico",
   "Jornada de 30 dias",
   "Estatísticas completas",
   "Medalhas e conquistas",
-  "Desafios exclusivos",
   "Histórico do seu progresso",
 ];
 
@@ -42,13 +42,14 @@ export default function LandingPage() {
       {/* Hero */}
       <section className="container py-14 md:py-20">
         <div className="mx-auto max-w-2xl text-center">
-          <Badge variant="success" className="mx-auto mb-5">🎮 Hábitos saudáveis, do seu jeito</Badge>
+          <Badge variant="success" className="mx-auto mb-5">🎯 Emagreça com hábitos, não com sofrimento</Badge>
           <h1 className="text-4xl font-extrabold leading-tight tracking-tight md:text-6xl">
-            Transforme seus hábitos em um jogo.
+            Emagreça criando hábitos que duram.
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground">
-            Complete pequenas missões, ganhe pontos, suba de nível e construa uma rotina mais
-            consistente — sem culpa e sem pressão.
+            Um app que transforma sua jornada de emagrecimento em um jogo: pequenas missões diárias,
+            acompanhamento do seu peso e a consistência que traz resultado de verdade — sem dietas
+            malucas, sem culpa.
           </p>
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Link href="/signup" className="w-full sm:w-auto">
@@ -61,7 +62,8 @@ export default function LandingPage() {
             </Link>
           </div>
           <p className="mt-4 text-xs text-muted-foreground">
-            Foco em bem-estar e consistência. Não fazemos diagnósticos nem prometemos perda de peso.
+            Foco em hábitos saudáveis e consistência. Não fazemos diagnósticos, não prescrevemos
+            dietas e os resultados variam de pessoa para pessoa.
           </p>
         </div>
 
@@ -77,9 +79,9 @@ export default function LandingPage() {
               </div>
               <div className="mt-4 space-y-2">
                 {[
-                  { i: "💧", t: "Beber sua meta de água", xp: 20 },
+                  { i: "⚖️", t: "Registrar seu peso", xp: 20 },
                   { i: "🥗", t: "Refeição equilibrada", xp: 30 },
-                  { i: "🚶", t: "20 min de movimento", xp: 30 },
+                  { i: "🚶", t: "30 min de movimento", xp: 30 },
                 ].map((m) => (
                   <div key={m.t} className="flex items-center gap-3 rounded-xl bg-card p-3 shadow-sm">
                     <span className="text-xl">{m.i}</span>
@@ -143,7 +145,7 @@ export default function LandingPage() {
       <footer className="border-t py-8">
         <div className="container flex flex-col items-center gap-2 text-center text-sm text-muted-foreground">
           <span className="font-bold text-foreground">Projeto Leve</span>
-          <p>Hábitos saudáveis por meio da gamificação. Este app não substitui orientação profissional de saúde.</p>
+          <p>Emagrecimento por meio de hábitos saudáveis e gamificação. Este app não substitui orientação profissional de saúde e não garante resultados específicos.</p>
           <div className="flex gap-4">
             <Link href="/login" className="hover:text-foreground">Entrar</Link>
             <Link href="/signup" className="hover:text-foreground">Criar conta</Link>

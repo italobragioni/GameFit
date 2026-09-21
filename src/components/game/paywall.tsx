@@ -10,11 +10,11 @@ import { track } from "@/lib/analytics";
 
 const BENEFITS = [
   "Missões ilimitadas",
+  "Acompanhamento de peso",
   "Jornada de 30 dias",
   "Estatísticas completas",
   "Medalhas",
-  "Desafios",
-  "Histórico",
+  "Histórico completo",
 ];
 
 export function Paywall({ context }: { context?: string }) {
