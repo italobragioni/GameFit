@@ -4,9 +4,9 @@ import { Logo } from "@/components/brand/logo";
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-dvh flex-col bg-secondary/30">
-      <header className="container flex h-16 items-center">
+      <header className="container flex h-20 items-center">
         <Link href="/">
-          <Logo className="h-9" />
+          <Logo className="h-14" />
         </Link>
       </header>
       <main className="container flex flex-1 items-center justify-center py-8">

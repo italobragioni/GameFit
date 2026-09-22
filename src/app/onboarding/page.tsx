@@ -60,7 +60,7 @@ export default function OnboardingPage() {
   return (
     <div className="flex min-h-dvh flex-col bg-secondary/20 px-6 py-8">
       <div className="mx-auto flex w-full max-w-md flex-1 flex-col">
-        <Logo className="mx-auto mb-4 h-12" />
+        <Logo className="mx-auto mb-4 h-20" />
         <Progress value={((step + 1) / totalSteps) * 100} className="mb-8" />
 
         <div className="flex flex-1 flex-col">

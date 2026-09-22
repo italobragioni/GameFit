@@ -28,7 +28,7 @@ export default function LandingPage() {
       {/* Header */}
       <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
         <div className="container flex h-16 items-center justify-between">
-          <Logo className="h-9" />
+          <Logo className="h-12" />
           <div className="flex items-center gap-2">
             <Link href="/login">
               <Button variant="ghost" size="sm">Entrar</Button>

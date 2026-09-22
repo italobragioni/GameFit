@@ -101,7 +101,7 @@ export function DashboardClient({
           <p className="text-sm text-muted-foreground">{greeting()},</p>
           <h1 className="text-2xl font-extrabold">{name} 👋</h1>
         </div>
-        <Logo className="h-10" />
+        <Logo className="h-14" />
       </header>
 
       <StatRow streak={streak} xp={xp} level={levelInfo.level} />
