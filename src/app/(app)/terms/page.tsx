@@ -6,8 +6,8 @@ export default function TermsPage() {
       <PageHeader title="Termos de uso" />
       <div className="mt-4 space-y-3 text-sm text-muted-foreground">
         <p>
-          O Projeto Leve é uma ferramenta de bem-estar e gamificação de hábitos. O conteúdo tem
-          caráter informativo e motivacional.
+          O GameFit é uma ferramenta de bem-estar e gamificação de hábitos voltada ao emagrecimento
+          saudável. O conteúdo tem caráter informativo e motivacional.
         </p>
         <p>
           O app não oferece diagnósticos médicos, prescrição de dietas individualizadas nem promessas

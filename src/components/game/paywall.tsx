@@ -48,7 +48,7 @@ export function Paywall({ context }: { context?: string }) {
           <Rocket className="h-7 w-7 text-primary" />
         </div>
         <h2 className="mt-4 text-xl font-extrabold">Continue sua jornada 🚀</h2>
-        <p className="mt-1 text-sm text-muted-foreground">Desbloqueie tudo do Projeto Leve.</p>
+        <p className="mt-1 text-sm text-muted-foreground">Desbloqueie tudo do GameFit.</p>
 
         <div className="mt-4 flex items-baseline justify-center gap-1">
           <Badge variant="premium">Premium</Badge>

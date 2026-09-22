@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { PREMIUM_PRICE_LABEL } from "@/lib/game/config";
 import { Check, Flame, Star, Trophy, ArrowRight } from "lucide-react";
+import { Logo } from "@/components/brand/logo";
 
 const STEPS = [
   { n: 1, title: "Complete suas missões", desc: "Pequenas ações diárias de alimentação, movimento, hidratação e sono." },
@@ -27,7 +28,7 @@ export default function LandingPage() {
       {/* Header */}
       <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
         <div className="container flex h-16 items-center justify-between">
-          <span className="text-lg font-extrabold tracking-tight">Projeto Leve</span>
+          <Logo className="h-9" />
           <div className="flex items-center gap-2">
             <Link href="/login">
               <Button variant="ghost" size="sm">Entrar</Button>
@@ -98,7 +99,7 @@ export default function LandingPage() {
       {/* Como funciona */}
       <section className="border-t bg-secondary/30 py-16">
         <div className="container">
-          <h2 className="text-center text-3xl font-extrabold">Como funciona</h2>
+          <h2 className="text-center text-3xl font-extrabold">Como o GameFit te ajuda a emagrecer</h2>
           <div className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {STEPS.map((s) => (
               <Card key={s.n} className="text-center">
@@ -120,7 +121,7 @@ export default function LandingPage() {
         <div className="mx-auto max-w-md">
           <Card className="border-primary/30 shadow-lg">
             <CardContent className="pt-8 text-center">
-              <Badge variant="premium" className="mx-auto">Projeto Leve Premium</Badge>
+              <Badge variant="premium" className="mx-auto">GameFit Premium</Badge>
               <div className="mt-4 flex items-baseline justify-center gap-1">
                 <span className="text-5xl font-extrabold">{PREMIUM_PRICE_LABEL}</span>
                 <span className="text-muted-foreground">/mês</span>
@@ -144,7 +145,7 @@ export default function LandingPage() {
 
       <footer className="border-t py-8">
         <div className="container flex flex-col items-center gap-2 text-center text-sm text-muted-foreground">
-          <span className="font-bold text-foreground">Projeto Leve</span>
+          <span className="font-bold text-foreground">GameFit</span>
           <p>Emagrecimento por meio de hábitos saudáveis e gamificação. Este app não substitui orientação profissional de saúde e não garante resultados específicos.</p>
           <div className="flex gap-4">
             <Link href="/login" className="hover:text-foreground">Entrar</Link>

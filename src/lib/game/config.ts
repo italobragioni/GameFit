@@ -18,13 +18,14 @@ export const CATEGORY_META: Record<
   outros: { label: "Outros", icon: "✨", color: "bg-slate-100", textColor: "text-slate-700" },
 };
 
+// Opções de foco — todas são "alavancas" do emagrecimento saudável.
 export const FOCUS_OPTIONS: { value: MissionCategory; label: string; icon: string }[] = [
-  { value: "alimentacao", label: "Alimentação", icon: "🥗" },
-  { value: "hidratacao", label: "Hidratação", icon: "💧" },
-  { value: "movimento", label: "Movimento", icon: "🚶" },
-  { value: "sono", label: "Sono", icon: "😴" },
-  { value: "organizacao", label: "Organização", icon: "🗓️" },
-  { value: "mindfulness", label: "Consistência", icon: "🔥" },
+  { value: "alimentacao", label: "Comer melhor", icon: "🥗" },
+  { value: "movimento", label: "Me movimentar mais", icon: "🚶" },
+  { value: "hidratacao", label: "Beber mais água", icon: "💧" },
+  { value: "mindfulness", label: "Comer com consciência", icon: "🧠" },
+  { value: "sono", label: "Dormir melhor", icon: "😴" },
+  { value: "organizacao", label: "Planejar refeições", icon: "🗓️" },
 ];
 
 export const INTENSITY_OPTIONS = [

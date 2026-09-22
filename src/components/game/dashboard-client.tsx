@@ -9,6 +9,7 @@ import { useFeedback } from "@/components/game/feedback-provider";
 import { StatRow } from "@/components/game/stat-row";
 import { LevelProgress } from "@/components/game/level-progress";
 import { WeightChart, type WeightPoint } from "@/components/game/weight-chart";
+import { Logo } from "@/components/brand/logo";
 import { Scale, TrendingDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -95,9 +96,12 @@ export function DashboardClient({
 
   return (
     <div className="space-y-5 px-4 pt-6">
-      <header>
-        <p className="text-sm text-muted-foreground">{greeting()},</p>
-        <h1 className="text-2xl font-extrabold">{name} 👋</h1>
+      <header className="flex items-center justify-between">
+        <div>
+          <p className="text-sm text-muted-foreground">{greeting()},</p>
+          <h1 className="text-2xl font-extrabold">{name} 👋</h1>
+        </div>
+        <Logo className="h-10" />
       </header>
 
       <StatRow streak={streak} xp={xp} level={levelInfo.level} />

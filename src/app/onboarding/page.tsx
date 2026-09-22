@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
+import { Logo } from "@/components/brand/logo";
 import { FOCUS_OPTIONS, INTENSITY_OPTIONS } from "@/lib/game/config";
 import { completeOnboarding, addWeightEntry } from "@/lib/actions";
 import { track } from "@/lib/analytics";
@@ -59,6 +60,7 @@ export default function OnboardingPage() {
   return (
     <div className="flex min-h-dvh flex-col bg-secondary/20 px-6 py-8">
       <div className="mx-auto flex w-full max-w-md flex-1 flex-col">
+        <Logo className="mx-auto mb-4 h-12" />
         <Progress value={((step + 1) / totalSteps) * 100} className="mb-8" />
 
         <div className="flex flex-1 flex-col">

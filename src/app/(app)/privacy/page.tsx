@@ -11,7 +11,7 @@ export default function PrivacyPage() {
           pessoal dentro do app.
         </p>
         <p>Não vendemos seus dados e não criamos rankings públicos com informações sensíveis.</p>
-        <p>O Projeto Leve não realiza diagnósticos nem substitui orientação profissional de saúde.</p>
+        <p>O GameFit não realiza diagnósticos nem substitui orientação profissional de saúde.</p>
       </div>
     </div>
   );

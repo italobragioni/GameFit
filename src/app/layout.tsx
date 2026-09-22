@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "Projeto Leve — Emagreça criando hábitos que duram",
+  title: "GameFit — Emagreça criando hábitos que duram",
   description:
     "Transforme sua jornada de emagrecimento em um jogo: missões diárias, acompanhamento de peso e a consistência que traz resultado — sem dietas malucas.",
 };
