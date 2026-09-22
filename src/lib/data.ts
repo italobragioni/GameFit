@@ -78,27 +78,39 @@ export async function getDailyMissions(
   const missions = (missionsRaw as Mission[]) ?? [];
   const doneIds = new Set((completed ?? []).map((c: any) => c.mission_id));
 
-  // Ordena: foco do usuário primeiro, depois demais.
+  // Categorias mais ligadas ao emagrecimento têm prioridade.
+  const WEIGHT_CATS = new Set(["alimentacao", "movimento", "hidratacao"]);
   const focus = new Set(focusAreas);
-  const scored = missions
-    .map((m) => ({ m, score: focus.has(m.category) ? 0 : 1 }))
-    .sort((a, b) => a.score - b.score || a.m.sort_order - b.m.sort_order)
-    .map((x) => x.m);
+  const scoreOf = (m: Mission) => {
+    let s = WEIGHT_CATS.has(m.category) ? 0 : 3; // foca em comida/movimento/água
+    if (focus.has(m.category)) s -= 1; // respeita o foco do usuário
+    return s;
+  };
+  const scored = [...missions].sort((a, b) => scoreOf(a) - scoreOf(b) || a.sort_order - b.sort_order);
+
+  // "Registrar seu peso" fica fixa no topo todo dia.
+  const weighIn = scored.find((m) => m.title.toLowerCase().startsWith("registrar seu peso"));
+  const rest = scored.filter((m) => m.id !== weighIn?.id);
+
+  const decorate = (m: Mission, locked = false): DailyMission => ({
+    ...m,
+    completed: locked ? false : doneIds.has(m.id),
+    locked,
+  });
 
   // Quantas missões mostrar por intensidade.
   const cap = intensity === "leve" ? 4 : intensity === "desafiadora" ? 8 : 6;
 
   if (isPremium) {
-    return scored.slice(0, cap).map((m) => ({ ...m, completed: doneIds.has(m.id), locked: false }));
+    const list = weighIn ? [weighIn, ...rest] : rest;
+    return list.slice(0, cap).map((m) => decorate(m));
   }
 
-  // Grátis: prioriza missões grátis (limite) + alguns teasers premium bloqueados.
-  const free = scored.filter((m) => !m.is_premium).slice(0, 3);
-  const premiumTeasers = scored.filter((m) => m.is_premium).slice(0, 3);
-  return [
-    ...free.map((m) => ({ ...m, completed: doneIds.has(m.id), locked: false })),
-    ...premiumTeasers.map((m) => ({ ...m, completed: false, locked: true })),
-  ];
+  // Grátis: peso fixo + missões grátis (limite) + teasers premium bloqueados.
+  const head = weighIn ? [decorate(weighIn)] : [];
+  const free = rest.filter((m) => !m.is_premium).slice(0, weighIn ? 2 : 3).map((m) => decorate(m));
+  const premiumTeasers = rest.filter((m) => m.is_premium).slice(0, 3).map((m) => decorate(m, true));
+  return [...head, ...free, ...premiumTeasers];
 }
 
 /** Missões concluídas nos últimos N dias (para gráficos). */
