@@ -52,6 +52,8 @@ export interface Batch {
   created_at: string;
   started_at: string | null;
   finished_at: string | null;
+  /** Quando o aviso de conclusão (push) foi enviado. */
+  notified_at: string | null;
 }
 
 export interface VideoItem {
@@ -86,6 +88,16 @@ export interface UserSettings {
   drive_folder_mode: DriveFolderMode;
   keep_original_name: boolean;
   updated_at: string;
+}
+
+/** Inscrição de Web Push de um navegador do usuário. */
+export interface PushSubscriptionRecord {
+  id: string;
+  user_id: string;
+  endpoint: string;
+  p256dh: string;
+  auth: string;
+  created_at: string;
 }
 
 /** Conexão OAuth com o Google Drive (tokens armazenados criptografados). */

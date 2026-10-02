@@ -14,6 +14,7 @@ import { AppShell } from '@/components/app-shell';
 import { Button } from '@/components/ui/button';
 import { Card, ChipGroup, Input, Label, Spinner, Toggle } from '@/components/ui/primitives';
 import { EditSettings, type EditValues } from '@/components/edit-settings';
+import { PushToggle } from '@/components/push-toggle';
 
 interface Folder {
   id: string;
@@ -241,6 +242,15 @@ export default function SettingsPage() {
               Conectar Google Drive
             </a>
           )}
+        </Card>
+
+        {/* Notificações */}
+        <Card className="flex flex-col gap-3">
+          <h2 className="text-lg font-bold text-slate-900">Notificações</h2>
+          <p className="text-sm text-slate-500">
+            Receba um aviso no celular quando um lote terminar — mesmo com o app fechado.
+          </p>
+          <PushToggle />
         </Card>
 
         {/* Padrões de edição */}

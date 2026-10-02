@@ -48,6 +48,10 @@ export async function updateVideo(id: string, patch: Partial<VideoItem>): Promis
   if (error) throw error;
 }
 
+export async function markBatchNotified(id: string): Promise<void> {
+  await supabase.from('batches').update({ notified_at: new Date().toISOString() }).eq('id', id);
+}
+
 /** Baixa um arquivo do Storage para um Buffer. */
 export async function downloadFromStorage(bucket: string, path: string): Promise<Buffer> {
   const { data, error } = await supabase.storage.from(bucket).download(path);

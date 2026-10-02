@@ -54,9 +54,9 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
-// Estrutura preparada para notificações push (não obrigatória no MVP).
+// Notificações push: "Seu lote terminou".
 self.addEventListener('push', (event) => {
-  let payload = { title: 'Editor de Vídeos', body: 'Atualização do seu lote.' };
+  let payload = { title: 'Editor de Vídeos', body: 'Atualização do seu lote.', url: '/batches' };
   try {
     if (event.data) payload = { ...payload, ...event.data.json() };
   } catch (_) {
@@ -67,6 +67,24 @@ self.addEventListener('push', (event) => {
       body: payload.body,
       icon: '/icons/icon-192.png',
       badge: '/icons/icon-192.png',
+      data: { url: payload.url || '/batches' },
+    }),
+  );
+});
+
+// Ao tocar na notificação, abre (ou foca) o app na página indicada.
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const target = event.notification.data?.url || '/batches';
+  event.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((list) => {
+      for (const client of list) {
+        if ('focus' in client) {
+          client.navigate(target).catch(() => undefined);
+          return client.focus();
+        }
+      }
+      return self.clients.openWindow(target);
     }),
   );
 });

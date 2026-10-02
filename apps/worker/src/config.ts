@@ -31,6 +31,14 @@ export const config = {
   retryBackoffMs: Number(process.env.WORKER_RETRY_BACKOFF_MS || 2000),
   cleanupAgeHours: Number(process.env.WORKER_CLEANUP_AGE_HOURS || 24),
 
+  /** Notificações push (Web Push). Opcional: se faltar, o worker apenas não notifica. */
+  push: {
+    publicKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || '',
+    privateKey: process.env.VAPID_PRIVATE_KEY || '',
+    subject: process.env.VAPID_SUBJECT || 'mailto:admin@example.com',
+  },
+  appUrl: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+
   /** Identificador deste worker (para a trava da fila). */
   workerId: `${process.env.HOSTNAME || 'worker'}-${process.pid}`,
 };

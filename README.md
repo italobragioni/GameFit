@@ -159,6 +159,22 @@ Isso é **diferente** do Drive. Se quiser o botão “Entrar com Google”:
    redirect `https://SEU-PROJETO.supabase.co/auth/v1/callback`.
 3. Sem isso, o **login por e-mail** (link mágico) já funciona sozinho.
 
+### 9.1) (Opcional) Notificações push ("Seu lote terminou")
+Para receber aviso no celular quando o lote acabar:
+1. Gere o par de chaves VAPID:
+   ```bash
+   npx web-push generate-vapid-keys
+   ```
+2. Coloque nos `.env`:
+   - **Public Key** → `NEXT_PUBLIC_VAPID_PUBLIC_KEY` (web + worker)
+   - **Private Key** → `VAPID_PRIVATE_KEY` (só no worker)
+   - `VAPID_SUBJECT=mailto:seu-email@exemplo.com`
+3. No app, em **Configurações → Notificações**, toque em **Ativar notificações**.
+4. 📱 **iPhone:** o push só funciona com o app **adicionado à tela inicial**
+   (iOS 16.4+). Adicione primeiro (passo final) e depois ative.
+
+Se deixar as chaves em branco, o app funciona normalmente, só não envia avisos.
+
 ### 10) Sobre o FFmpeg
 Você **não precisa instalar nada**: o worker usa o `ffmpeg-static` (um FFmpeg
 embutido) automaticamente. Se preferir usar o FFmpeg do seu sistema, instale-o
@@ -270,7 +286,10 @@ editor-de-videos/
 | `GOOGLE_CLIENT_SECRET` | web + worker | OAuth do Drive (secreto) |
 | `GOOGLE_REDIRECT_URI` | web + worker | Deve bater com o Google Cloud |
 | `TOKEN_ENCRYPTION_KEY` | web + worker | Criptografa os tokens (32 bytes base64) |
-| `NEXT_PUBLIC_APP_URL` | web | URL pública do site |
+| `NEXT_PUBLIC_APP_URL` | web + worker | URL pública do site |
+| `NEXT_PUBLIC_VAPID_PUBLIC_KEY` | web + worker | (opcional) Push — chave pública |
+| `VAPID_PRIVATE_KEY` | worker | (opcional) Push — chave privada |
+| `VAPID_SUBJECT` | worker | (opcional) Push — contato (mailto:) |
 | `FFMPEG_PATH` | worker | (opcional) FFmpeg do sistema |
 | `WORKER_TMP_DIR` | worker | Pasta temporária |
 | `WORKER_POLL_INTERVAL_MS` | worker | Intervalo de checagem da fila |
@@ -297,8 +316,8 @@ TikTok e Shorts.
 ---
 
 ## 🧩 Limitações do MVP e próximos passos
-- **Notificações push** do PWA: a estrutura já existe (service worker trata
-  `push`), mas o envio ainda não está ligado. É o próximo passo natural.
+- **Notificações push** do PWA: **implementadas** (ative em Configurações; veja
+  o passo 9.1). No iPhone exigem o app na tela inicial (iOS 16.4+).
 - Uploads muito grandes pelo celular podem esbarrar no limite do Supabase
   Storage no plano gratuito — nesses casos, use **links (URLs)**.
 - Novos “importadores” de fontes autorizadas podem ser adicionados de forma

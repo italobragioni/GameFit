@@ -1,8 +1,26 @@
 import { config } from './config.js';
 import { log } from './logger.js';
-import { claimNextVideo } from './supabase.js';
+import { claimNextVideo, getBatch, markBatchNotified } from './supabase.js';
 import { processVideo } from './processor.js';
 import { runMaintenance } from './cleanup.js';
+import { notifyBatchFinished } from './push.js';
+
+/** Avisa o dono do lote (push) quando o lote termina, apenas uma vez. */
+async function maybeNotify(batchId: string): Promise<void> {
+  try {
+    const batch = await getBatch(batchId);
+    const terminal =
+      batch.status === 'completed' ||
+      batch.status === 'completed_with_errors' ||
+      batch.status === 'failed';
+    if (terminal && !batch.notified_at) {
+      await markBatchNotified(batch.id); // marca antes de enviar, para não duplicar
+      await notifyBatchFinished(batch);
+    }
+  } catch (err) {
+    log.warn(`Falha ao avaliar notificação do lote: ${String(err)}`);
+  }
+}
 
 let running = true;
 
@@ -37,6 +55,9 @@ async function main(): Promise<void> {
 
     // processa UM vídeo por vez (nunca em paralelo)
     await processVideo(video);
+
+    // se o lote terminou com este vídeo, avisa o usuário (push)
+    await maybeNotify(video.batch_id);
   }
 
   clearInterval(maintenanceTimer);
