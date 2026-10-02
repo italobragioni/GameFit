@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  background-color: #f8fafc; /* slate-50, fundo claro */
+  color: #0f172a; /* slate-900 */
+  -webkit-text-size-adjust: 100%;
+}
+
+/* evita "pulo" do layout ao focar inputs no iOS */
+input,
+textarea,
+select,
+button {
+  font-size: 16px;
+}
+
+/* área segura para notch do iPhone */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
